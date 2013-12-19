@@ -66,6 +66,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
 	private boolean allowAllComment;      //是否允许所有人对我的微博进行评论
 	private boolean followMe;             //此用户是否关注我
 	private String avatarLarge;           //大头像地址
+	private String avatarHd;              //用户头像地址（高清）
 	private int onlineStatus;             //用户在线状态
 	private Status status = null;         //用户最新一条微博
 	private int biFollowersCount;         //互粉数
@@ -164,8 +165,10 @@ public class User extends WeiboResponse implements java.io.Serializable {
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
-	
-	public String getWeihao() {
+    public String getAvatarHd() {return avatarHd; }
+    public void setAvatarHd(String avatarHd) {this.avatarHd = avatarHd; }
+
+    public String getWeihao() {
 		return weihao;
 	}
 	public void setWeihao(String weihao) {
@@ -243,6 +246,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
 				allowAllComment = json.getBoolean("allow_all_comment");
 				followMe = json.getBoolean("follow_me");
 				avatarLarge = json.getString("avatar_large");
+                avatarHd = json.getString("avatar_hd");
 				onlineStatus = json.getInt("online_status");
 				statusId = json.getString("status_id");
 				biFollowersCount = json.getInt("bi_followers_count");
@@ -483,7 +487,8 @@ public class User extends WeiboResponse implements java.io.Serializable {
 		", allowAllComment=" + allowAllComment + 
 		", followMe=" + followMe + 
 		", avatarLarge=" + avatarLarge + 
-		", onlineStatus=" + onlineStatus + 
+		", avatarHd=" + avatarHd +
+		", onlineStatus=" + onlineStatus +
 		", status=" + status + 
 		", biFollowersCount=" + biFollowersCount + 
 		", remark=" + remark + 

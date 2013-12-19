@@ -71,6 +71,15 @@ public class Friendships extends Weibo{
 				new PostParameter[] { new PostParameter("uid", uid) }));
 	}
 
+	public UserWapper getFriendsByIDAndCount(String id, Integer count)
+    	throws WeiboException {
+
+	    int size = (count == null) ? 50 : count.intValue();
+	    return User.constructWapperUsers(this.client.get(
+	      WeiboConfig.getValue("baseURL") + "friendships/friends.json", 
+	      new PostParameter[] { new PostParameter("uid", id), new PostParameter("count", size) }));
+	}
+
 	/**
 	 * 获取两个用户之间的共同关注人列表
 	 * 

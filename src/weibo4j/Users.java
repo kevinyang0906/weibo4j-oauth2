@@ -4,6 +4,7 @@ import weibo4j.model.PostParameter;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONArray;
+import weibo4j.org.json.JSONObject;
 import weibo4j.util.WeiboConfig;
 
 public class Users extends Weibo{
@@ -86,4 +87,15 @@ public class Users extends Weibo{
 		return  client.get(WeiboConfig.getValue("baseURL") + "users/counts.json",
 				new PostParameter[] { new PostParameter("uids", uids)}).asJSONArray();
 	}
+
+    /**
+     * 获得用户的邮箱地址
+     *
+     * @return
+     * @throws WeiboException
+     */
+    public JSONObject showEmail() throws WeiboException {
+        return client.get(WeiboConfig.getValue("baseURL")
+                + "account/profile/email.json", new PostParameter[]{}).asJSONObject();
+    }
 }

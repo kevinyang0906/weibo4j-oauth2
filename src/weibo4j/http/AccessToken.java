@@ -14,6 +14,7 @@ public class AccessToken extends WeiboResponse implements Serializable {
 	private String accessToken;
 	private String expireIn;
 	private String refreshToken;
+    private String screenName;
 	private String uid;
 	public AccessToken(Response res) throws WeiboException{
 		super(res);
@@ -23,6 +24,7 @@ public class AccessToken extends WeiboResponse implements Serializable {
 			expireIn = json.getString("expires_in");
 			refreshToken = json.getString("refresh_token");
 			uid = json.getString("uid");
+            this.screenName = json.getString("screen_name");
 		} catch (JSONException je) {
 			throw new WeiboException(je.getMessage() + ":" + json.toString(), je);
 		}
@@ -34,7 +36,7 @@ public class AccessToken extends WeiboResponse implements Serializable {
 		expireIn = json.getString("expires_in");
 		refreshToken = json.getString("refresh_token");
 		uid = json.getString("uid");
-	}
+        this.screenName = json.getString("screen_name"); }
 	public String getAccessToken() {
 		return accessToken;
 	}
@@ -43,6 +45,14 @@ public class AccessToken extends WeiboResponse implements Serializable {
 	}
 	public String getRefreshToken() {
 		return refreshToken;
+	}
+    public void setScreenName(String screenName) {this.screenName = screenName;}
+
+    public String getScreenName() {
+		return screenName;
+	}
+	public String getUid() {
+		return uid;
 	}
 	@Override
 	public int hashCode() {
@@ -78,7 +88,9 @@ public class AccessToken extends WeiboResponse implements Serializable {
 		if (refreshToken == null) {
 			if (other.refreshToken != null)
 				return false;
-		} else if (!refreshToken.equals(other.refreshToken))
+		} else if (!refreshToken.equals(other.refreshToken)){
+			return false;
+        } else if (!screenName.equals(other.screenName))
 			return false;
 		return true;
 	}
@@ -88,6 +100,7 @@ public class AccessToken extends WeiboResponse implements Serializable {
 		"accessToken=" + accessToken + 
 		", expireIn=" + expireIn + 
 		", refreshToken=" + refreshToken +
+        ",screenName =" + screenName +
 		",uid="+uid+
 		"]";
 	}

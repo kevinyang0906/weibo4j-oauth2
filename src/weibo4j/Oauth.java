@@ -11,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 import weibo4j.http.AccessToken;
 import weibo4j.http.BASE64Encoder;
 import weibo4j.model.PostParameter;
+import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
 import weibo4j.org.json.JSONObject;
@@ -77,7 +78,7 @@ public class Oauth extends Weibo{
 	/*----------------------------Oauth接口--------------------------------------*/
 
 	public AccessToken getAccessTokenByCode(String code) throws WeiboException {
-		return new AccessToken(client.post(
+        AccessToken accessToken = new AccessToken(client.post(
 				WeiboConfig.getValue("accessTokenURL"),
 				new PostParameter[] {
 						new PostParameter("client_id", WeiboConfig
@@ -88,6 +89,16 @@ public class Oauth extends Weibo{
 						new PostParameter("code", code),
 						new PostParameter("redirect_uri", WeiboConfig
 								.getValue("redirect_URI")) }, false));
+
+        if (accessToken != null)
+        {
+            Users um = new Users();
+            um.client.setToken(accessToken.getAccessToken());
+            User user = um.showUserById(accessToken.getUid());
+
+            accessToken.setScreenName(user.getScreenName());
+        }
+        return accessToken;
 	}
 
 	public String authorize(String response_type,String state) throws WeiboException {
@@ -97,6 +108,7 @@ public class Oauth extends Weibo{
 				+ "&response_type=" + response_type
 				+ "&state="+state;
 	}
+
 	public String authorize(String response_type,String state,String scope) throws WeiboException {
 		return WeiboConfig.getValue("authorizeURL").trim() + "?client_id="
 				+ WeiboConfig.getValue("client_ID").trim() + "&redirect_uri="
@@ -105,4 +117,17 @@ public class Oauth extends Weibo{
 				+ "&state="+state
 				+ "&scope="+scope;
 	}
+
+    public String authorize(String response_type,String state,String scope, String rediectUrl) throws WeiboException {
+        if (rediectUrl == null)
+            return authorize(response_type,state,scope);
+
+        return WeiboConfig.getValue("authorizeURL").trim() + "?client_id=" +
+                WeiboConfig.getValue("client_ID").trim() + "&redirect_uri=" +
+                rediectUrl.trim() +
+                "&response_type=" + response_type
+                + "&state="+state
+                + "&scope="+scope;
+    }
+
 }

@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="weibo4j-oauth2-2.4.1:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/weibo4j_oauth2_2_4_1_jar</output-path>
+    <root id="archive" name="weibo4j-oauth2.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="weibo4j-oauth2" />
+    </root>
+  </artifact>
+</component>
